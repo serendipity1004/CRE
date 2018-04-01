@@ -1,5 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Reboot from 'material-ui/Reboot';
+import {withStyles} from 'material-ui/styles';
 
 /**
  * Pages
@@ -7,13 +9,22 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import IndexPage from '../pages/Index';
 
-export default class App extends React.Component {
+const styles = theme => ({
+    root:{
+        height:'100%'
+    }
+});
+
+class App extends React.Component {
 
     render() {
+        const {classes} = this.props;
+
         return (
             <div>
+                <Reboot/>
                 <BrowserRouter>
-                    <div>
+                    <div className={classes.root}>
                         <Switch>
                             <Route exact path="/" component={IndexPage}/>
                         </Switch>
@@ -23,3 +34,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+export default withStyles(styles)(App);
