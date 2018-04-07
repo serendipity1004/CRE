@@ -1,18 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import {withStyles} from 'material-ui/styles';
+import Table, {TableBody, TableCell, TableHead, TableRow} from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-
-const CustomTableCell = withStyles(theme => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
 
 const styles = theme => ({
     root: {
@@ -23,47 +13,45 @@ const styles = theme => ({
     table: {
         // minWidth: 700,
     },
-    row:{
+    row: {
         '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.background.default,
         },
     }
 });
 
-let id = 0;
-function createData(one, two, three) {
-    id += 1;
-    return { id, one, two, three};
-}
+class SimpleTable extends React.Component {
+    render() {
+        const {classes} = this.props;
 
-const data = [
-    createData('Property Details', 'Original', 'Adjustment'),
-    createData('Square Feet', 1,712, ''),
-    createData('Lot Size', 7,195, ''),
-    createData('Beds', 4, ''),
-    createData('Baths', 2.5, '')
-];
+        return (
+            <Paper className={classes.root}>
+                <Table className={classes.table}>
+                    <TableHead>
+                        <TableRow style={{backgroundColor:'#F1F1F1'}}>
+                            {Object.keys(this.props.data[0]).map(item => (
+                                <TableCell padding="none" style={{fontWeight:'bold'}}>{item}</TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {this.props.data.map((item, index) => {
+                                let keys = Object.keys(item);
 
-function SimpleTable(props) {
-    const { classes } = props;
+                                let row = keys.map(key => (<TableCell padding="none">{item[key]}</TableCell>))
 
-    return (
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-                <TableBody>
-                    {data.map(n => {
-                        return (
-                            <TableRow className={classes.row} key={n.id}>
-                                <CustomTableCell>{n.one}</CustomTableCell>
-                                <CustomTableCell numeric>{n.two}</CustomTableCell>
-                                <CustomTableCell numeric>{n.three}</CustomTableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </Paper>
-    );
+                                return (
+                                    <TableRow key={index}>
+                                        {row}
+                                    </TableRow>
+                                )
+                            }
+                        )}
+                    </TableBody>
+                </Table>
+            </Paper>
+        );
+    }
 }
 
 SimpleTable.propTypes = {
